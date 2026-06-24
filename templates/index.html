@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Brain</title>
+</head>
+<body>
+
+    <h1>Study Brain</h1>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="note">
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Uploaded Notes</h2>
+
+    <ul>
+        {% for file in files %}
+        <li>
+            <a href="/note/{{ file }}">{{ file }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
