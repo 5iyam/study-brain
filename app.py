@@ -104,11 +104,8 @@ def note(filename):
 
     return f"""
     <h1>{filename}</h1>
-
     <pre>{content}</pre>
-
     <br>
-
     <a href="/">Back to Home</a>
     """
 
@@ -134,15 +131,15 @@ def ocr(filename):
 
     <br>
 
-    <a href="/summary/{filename}">
-        Better Summary
-    </a>
+    <a href="/summary/{filename}">Better Summary</a>
 
     <br><br>
 
-    <a href="/keywords/{filename}">
-        Keywords
-    </a>
+    <a href="/keywords/{filename}">Keywords</a>
+
+    <br><br>
+
+    <a href="/questions/{filename}">Revision Questions</a>
 
     <br><br>
 
@@ -203,6 +200,37 @@ def keywords(filename):
 
     html += """
     </ul>
+
+    <br>
+
+    <a href="/">Back to Home</a>
+    """
+
+    return html
+
+
+@app.route("/questions/<filename>")
+def questions(filename):
+
+    path = os.path.join(UPLOAD_FOLDER, filename)
+
+    text = pytesseract.image_to_string(Image.open(path))
+
+    keywords = extract_keywords(text)
+
+    html = f"""
+    <h1>Revision Questions</h1>
+
+    <h3>{filename}</h3>
+
+    <ol>
+    """
+
+    for word, count in keywords:
+        html += f"<li>What is {word}?</li>"
+
+    html += """
+    </ol>
 
     <br>
 
