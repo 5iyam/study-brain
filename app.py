@@ -7,6 +7,7 @@ from collections import Counter
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
+INDEX_FOLDER = "index"
 
 
 def generate_summary(text):
@@ -105,7 +106,103 @@ def search_notes(query):
             pass
 
     return results
+    
+def create_index(filename):
 
+    upload_path = os.path.join(UPLOAD_FOLDER, filename)
+
+    index_filename = os.path.splitext(filename)[0] + ".txt"
+
+    index_path = os.path.join(INDEX_FOLDER, index_filename)
+
+    text = ""
+
+    try:
+
+        if filename.lower().endswith((".png", ".jpg", ".jpeg")):
+
+            text = pytesseract.image_to_string(
+                Image.open(upload_path)
+            )
+
+        else:
+
+            with open(upload_path, "r", errors="ignore") as f:
+                text = f.read()
+
+        with open(index_path, "w", encoding="utf-8") as f:
+            f.write(text)
+
+    except Exception as e:
+
+        print("Indexing Error:", e)
+
+
+def get_index_text(filename):
+
+    index_filename = os.path.splitext(filename)[0] + ".txt"
+
+    index_path = os.path.join(INDEX_FOLDER, index_filename)
+
+    if not os.path.exists(index_path):
+        return ""
+
+    with open(index_path, "r", encoding="utf-8") as f:
+        return f.read()
+
+
+def search_index(query):
+
+    results = []
+
+    files = os.listdir(INDEX_FOLDER)
+
+    for file in files:
+
+        path = os.path.join(INDEX_FOLDER, file)
+
+        try:
+
+            with open(path, "r", encoding="utf-8") as f:
+
+                text = f.read()
+
+            score = text.lower().count(query.lower())
+
+            if score > 0:
+
+                pos = text.lower().find(query.lower())
+
+                start = max(0, pos - 60)
+
+                end = min(len(text), pos + 120)
+
+                snippet = text[start:end]
+
+                snippet = snippet.replace(
+                    query,
+                    f"<mark>{query}</mark>"
+                )
+
+                original_file = (
+                    os.path.splitext(file)[0]
+                )
+
+                results.append({
+                    "file": original_file,
+                    "score": score,
+                    "snippet": snippet
+                })
+
+        except:
+            pass
+
+    results.sort(
+        key=lambda x: x["score"],
+        reverse=True
+    )
+
+    return results
 
 @app.route("/")
 def home():
@@ -119,19 +216,24 @@ def upload():
     file = request.files["note"]
 
     if file and file.filename:
-        file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+
+        file.save(
+            os.path.join(
+                UPLOAD_FOLDER,
+                file.filename
+            )
+        )
+
+        create_index(file.filename)
 
     return home()
 
 
 @app.route("/search", methods=["POST"])
 def search():
-
-    query = request.form["query"]
-
-    results = search_notes(query)
-
-    return render_template(
+    query = request.form["query"]       
+    results = search_index(query)       
+    return render_template(             
         "search.html",
         query=query,
         results=results
@@ -194,9 +296,7 @@ def ocr(filename):
 @app.route("/summary/<filename>")
 def summary(filename):
 
-    path = os.path.join(UPLOAD_FOLDER, filename)
-
-    text = pytesseract.image_to_string(Image.open(path))
+    text = get_index_text(filename)
 
     summary_lines = generate_summary(text)
 
@@ -213,9 +313,7 @@ def summary(filename):
 @app.route("/keywords/<filename>")
 def keywords(filename):
 
-    path = os.path.join(UPLOAD_FOLDER, filename)
-
-    text = pytesseract.image_to_string(Image.open(path))
+    text = get_index_text(filename)
 
     keywords = extract_keywords(text)
 
@@ -229,12 +327,12 @@ def keywords(filename):
     return html
 
 
+
+
 @app.route("/questions/<filename>")
 def questions(filename):
 
-    path = os.path.join(UPLOAD_FOLDER, filename)
-
-    text = pytesseract.image_to_string(Image.open(path))
+    text = get_index_text(filename)
 
     keywords = extract_keywords(text)
 

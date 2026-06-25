@@ -1,0 +1,20 @@
+Deep learning
+
+Deep learning is a subset of machine learning that uses multilayered neural networks, called deep
+neural networks, that more closely simulate the complex decision-making power of the human brain.
+
+Deep neural networks include an input layer, at least three but usually hundreds of hidden layers, and
+an output layer, unlike neural networks used in classic machine learning models, which usually have
+only one or two hidden layers.
+
+These multiple layers enable unsupervised learning: they can automate the extraction of features from
+large, unlabeled and unstructured data sets, and make their own predictions about what the data
+represents.
+
+Because deep learning doesn’t require human intervention, it enables machine learning at a
+tremendous scale. It is well suited to natural language processing (NLP), computer vision, and other
+tasks that involve the fast, accurate identification complex patterns and relationships in large amounts
+of data. Some form of deep learning powers most of the artificial intelligence (AI) applications in our
+lives today.
+
+(2A diagram showing how data is processed in a deep neural network
