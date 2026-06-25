@@ -1,14 +1,25 @@
 # Study Brain
 
-A Flask-based study assistant.
+An AI-assisted study tool built with Python and Flask.
 
 ## Features
-- Upload notes
-- View notes
-- Open notes
 
-## Future Features
+- Upload notes and images
+- OCR text extraction
+- Automatic summaries
+- Keyword extraction
+- Local processing (no cloud required)
+
+## Tech Stack
+
+- Python
+- Flask
+- Tesseract OCR
+- HTML
+
+## Future Plans
+
+- Revision questions
 - Search notes
-- AI summaries
-- Quiz generation
-- Chat with notes
+- Flashcards
+- Local AI integration
