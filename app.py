@@ -77,6 +77,36 @@ def extract_keywords(text):
     return counter.most_common(10)
 
 
+def search_notes(query):
+
+    results = []
+
+    files = os.listdir(UPLOAD_FOLDER)
+
+    for file in files:
+
+        path = os.path.join(UPLOAD_FOLDER, file)
+
+        text = ""
+
+        try:
+
+            if file.lower().endswith((".png", ".jpg", ".jpeg")):
+                text = pytesseract.image_to_string(Image.open(path))
+
+            else:
+                with open(path, "r", errors="ignore") as f:
+                    text = f.read()
+
+            if query.lower() in text.lower():
+                results.append(file)
+
+        except:
+            pass
+
+    return results
+
+
 @app.route("/")
 def home():
     files = os.listdir(UPLOAD_FOLDER)
@@ -92,6 +122,20 @@ def upload():
         file.save(os.path.join(UPLOAD_FOLDER, file.filename))
 
     return home()
+
+
+@app.route("/search", methods=["POST"])
+def search():
+
+    query = request.form["query"]
+
+    results = search_notes(query)
+
+    return render_template(
+        "search.html",
+        query=query,
+        results=results
+    )
 
 
 @app.route("/note/<filename>")
@@ -156,24 +200,12 @@ def summary(filename):
 
     summary_lines = generate_summary(text)
 
-    html = f"""
-    <h1>Better Summary</h1>
-
-    <h3>{filename}</h3>
-
-    <ul>
-    """
+    html = f"<h1>Better Summary</h1><h3>{filename}</h3><ul>"
 
     for line in summary_lines:
         html += f"<li>{line}</li>"
 
-    html += """
-    </ul>
-
-    <br>
-
-    <a href="/">Back to Home</a>
-    """
+    html += "</ul><br><a href='/'>Back to Home</a>"
 
     return html
 
@@ -187,24 +219,12 @@ def keywords(filename):
 
     keywords = extract_keywords(text)
 
-    html = f"""
-    <h1>Keywords</h1>
-
-    <h3>{filename}</h3>
-
-    <ul>
-    """
+    html = f"<h1>Keywords</h1><h3>{filename}</h3><ul>"
 
     for word, count in keywords:
         html += f"<li>{word} ({count})</li>"
 
-    html += """
-    </ul>
-
-    <br>
-
-    <a href="/">Back to Home</a>
-    """
+    html += "</ul><br><a href='/'>Back to Home</a>"
 
     return html
 
@@ -218,24 +238,12 @@ def questions(filename):
 
     keywords = extract_keywords(text)
 
-    html = f"""
-    <h1>Revision Questions</h1>
-
-    <h3>{filename}</h3>
-
-    <ol>
-    """
+    html = f"<h1>Revision Questions</h1><h3>{filename}</h3><ol>"
 
     for word, count in keywords:
         html += f"<li>What is {word}?</li>"
 
-    html += """
-    </ol>
-
-    <br>
-
-    <a href="/">Back to Home</a>
-    """
+    html += "</ol><br><a href='/'>Back to Home</a>"
 
     return html
 

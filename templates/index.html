@@ -12,6 +12,13 @@
     <button type="submit">Upload</button>
 </form>
 
+<br>
+
+<form action="/search" method="POST">
+    <input type="text" name="query" placeholder="Search notes">
+    <button type="submit">Search</button>
+</form>
+
 <h2>Uploaded Files</h2>
 
 <ul>
@@ -22,33 +29,33 @@
 
 {% if file.endswith('.jpg') or file.endswith('.jpeg') or file.endswith('.png') %}
 
-    <a href="/image/{{ file }}">{{ file }}</a>
+<a href="/image/{{ file }}">{{ file }}</a>
 
-    |
+|
 
-    <a href="/ocr/{{ file }}">Extract Text</a>
+<a href="/ocr/{{ file }}">Extract Text</a>
 
-    |
+|
 
-    <a href="/summary/{{ file }}">Better Summary</a>
+<a href="/summary/{{ file }}">Better Summary</a>
 
-    |
+|
 
-    <a href="/keywords/{{ file }}">Keywords</a>
+<a href="/keywords/{{ file }}">Keywords</a>
 
-    |
+|
 
-    <a href="/questions/{{ file }}">Revision Questions</a>
+<a href="/questions/{{ file }}">Revision Questions</a>
 
-    <br><br>
+<br><br>
 
-    <img src="/image/{{ file }}" width="250">
+<img src="/image/{{ file }}" width="250">
 
-    <br><br>
+<br><br>
 
 {% else %}
 
-    <a href="/note/{{ file }}">{{ file }}</a>
+<a href="/note/{{ file }}">{{ file }}</a>
 
 {% endif %}
 
