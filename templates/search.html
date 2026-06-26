@@ -1,23 +1,164 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>Search Results</title>
+
+    <style>
+
+        body{
+            font-family:Arial,Helvetica,sans-serif;
+            background:#f4f6f9;
+            margin:40px;
+        }
+
+        h1{
+            color:#2c3e50;
+        }
+
+        .search-box{
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 2px 8px rgba(0,0,0,.15);
+            margin-bottom:25px;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            margin-bottom:20px;
+            box-shadow:0 2px 8px rgba(0,0,0,.15);
+        }
+
+        .score{
+            color:#3498db;
+            font-weight:bold;
+            margin-top:8px;
+        }
+
+        .snippet{
+            margin-top:15px;
+            color:#444;
+            line-height:1.6;
+        }
+
+        mark{
+            background:yellow;
+            padding:2px;
+            border-radius:3px;
+        }
+
+        .buttons{
+            margin-top:15px;
+        }
+
+        .buttons a{
+            text-decoration:none;
+            background:#3498db;
+            color:white;
+            padding:8px 12px;
+            border-radius:6px;
+            margin-right:8px;
+            display:inline-block;
+        }
+
+        .buttons a:hover{
+            background:#2980b9;
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-<h1>Search Results</h1>
+<div class="search-box">
 
-<p>Search term: <b>{{ query }}</b></p>
+<h1>🔍 Search Results</h1>
 
-<ul>
+<h3>You searched for:</h3>
 
-{% for file in results %}
-    <li>{{ file }}</li>
+<p><b>{{ query }}</b></p>
+
+<p>{{ results|length }} result(s) found.</p>
+
+<a href="/">⬅ Back to Home</a>
+
+</div>
+
+{% if results %}
+
+{% for result in results %}
+
+<div class="card">
+
+<h2>
+
+{% if result.type == "image" %}
+
+🖼
+
+{% else %}
+
+📄
+
+{% endif %}
+
+{{ result.file }}
+
+</h2>
+
+<div class="score">
+
+⭐ Match Count: {{ result.score }}
+
+</div>
+
+<div class="snippet">
+
+{{ result.snippet|safe }}
+
+</div>
+
+<div class="buttons">
+
+{% if result.type == "image" %}
+
+<a href="/image/{{ result.file }}">View Image</a>
+
+<a href="/summary/{{ result.file }}">Summary</a>
+
+<a href="/keywords/{{ result.file }}">Keywords</a>
+
+<a href="/questions/{{ result.file }}">Questions</a>
+
+{% else %}
+
+<a href="/note/{{ result.file }}">Open Note</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
 {% endfor %}
 
-</ul>
+{% else %}
 
-<a href="/">Back to Home</a>
+<div class="card">
+
+<h2>No results found.</h2>
+
+<p>Try another keyword.</p>
+
+</div>
+
+{% endif %}
 
 </body>
+
 </html>

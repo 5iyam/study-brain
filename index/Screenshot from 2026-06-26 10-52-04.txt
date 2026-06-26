@@ -1,0 +1,5 @@
+Artificial Intelligence (Al) is a branch of computer science focused on building
+machines capable of performing tasks that typically require human intelligence,
+such as reasoning, learning, and problem-solving. Instead of following explicit step-
+by-step code, Al systems learn from vast amounts of data to identify patterns and
+make decisions autonomously. © Soosle coud +2

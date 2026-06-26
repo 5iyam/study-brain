@@ -11,46 +11,30 @@ INDEX_FOLDER = "index"
 
 
 def generate_summary(text):
-
     lines = text.split("\n")
-
     cleaned = []
-
     ignore_words = [
-        "name",
-        "roll",
-        "date",
-        "page",
-        "class",
-        "section"
+        "name", "roll", "date", "page", "class", "section"
     ]
 
     for line in lines:
-
         line = line.strip()
-
         if len(line) < 20:
             continue
-
         skip = False
-
         for word in ignore_words:
             if word in line.lower():
                 skip = True
                 break
-
         if not skip:
             cleaned.append(line)
 
     cleaned.sort(key=len, reverse=True)
-
     return cleaned[:5]
 
 
 def extract_keywords(text):
-
     words = text.lower().split()
-
     stop_words = {
         "the", "is", "a", "an", "and", "or",
         "to", "of", "in", "on", "for",
@@ -58,75 +42,53 @@ def extract_keywords(text):
         "are", "was", "were", "be",
         "as", "by", "at", "from"
     }
-
     cleaned = []
 
     for word in words:
-
         word = ''.join(c for c in word if c.isalnum())
-
         if len(word) < 4:
             continue
-
         if word in stop_words:
             continue
-
         cleaned.append(word)
 
     counter = Counter(cleaned)
-
     return counter.most_common(10)
 
 
 def search_notes(query):
-
     results = []
-
     files = os.listdir(UPLOAD_FOLDER)
 
     for file in files:
-
         path = os.path.join(UPLOAD_FOLDER, file)
-
         text = ""
 
         try:
-
             if file.lower().endswith((".png", ".jpg", ".jpeg")):
                 text = pytesseract.image_to_string(Image.open(path))
-
             else:
                 with open(path, "r", errors="ignore") as f:
                     text = f.read()
 
             if query.lower() in text.lower():
                 results.append(file)
-
         except:
             pass
 
     return results
-    
+
+
 def create_index(filename):
-
     upload_path = os.path.join(UPLOAD_FOLDER, filename)
-
     index_filename = os.path.splitext(filename)[0] + ".txt"
-
     index_path = os.path.join(INDEX_FOLDER, index_filename)
-
     text = ""
 
     try:
-
         if filename.lower().endswith((".png", ".jpg", ".jpeg")):
-
-            text = pytesseract.image_to_string(
-                Image.open(upload_path)
-            )
-
+            text = pytesseract.image_to_string(Image.open(upload_path))
         else:
-
             with open(upload_path, "r", errors="ignore") as f:
                 text = f.read()
 
@@ -134,14 +96,11 @@ def create_index(filename):
             f.write(text)
 
     except Exception as e:
-
         print("Indexing Error:", e)
 
 
 def get_index_text(filename):
-
     index_filename = os.path.splitext(filename)[0] + ".txt"
-
     index_path = os.path.join(INDEX_FOLDER, index_filename)
 
     if not os.path.exists(index_path):
@@ -152,58 +111,56 @@ def get_index_text(filename):
 
 
 def search_index(query):
-
     results = []
-
     files = os.listdir(INDEX_FOLDER)
+    image_extensions = [".png", ".jpg", ".jpeg"]
 
     for file in files:
-
         path = os.path.join(INDEX_FOLDER, file)
 
         try:
-
             with open(path, "r", encoding="utf-8") as f:
-
                 text = f.read()
 
             score = text.lower().count(query.lower())
 
-            if score > 0:
+            if score == 0:
+                continue
 
-                pos = text.lower().find(query.lower())
+            pos = text.lower().find(query.lower())
+            start = max(0, pos - 60)
+            end = min(len(text), pos + 120)
+            snippet = text[start:end]
 
-                start = max(0, pos - 60)
+            snippet = snippet.replace(
+                query,
+                f"<mark>{query}</mark>"
+            )
 
-                end = min(len(text), pos + 120)
+            base_name = os.path.splitext(file)[0]
+            display_name = base_name + ".txt"
+            file_type = "text"
 
-                snippet = text[start:end]
+            for ext in image_extensions:
+                if os.path.exists(
+                    os.path.join(UPLOAD_FOLDER, base_name + ext)
+                ):
+                    display_name = base_name + ext
+                    file_type = "image"
+                    break
 
-                snippet = snippet.replace(
-                    query,
-                    f"<mark>{query}</mark>"
-                )
+            results.append({
+                "file": display_name,
+                "score": score,
+                "snippet": snippet,
+                "type": file_type
+            })
 
-                original_file = (
-                    os.path.splitext(file)[0]
-                )
-
-                results.append({
-                    "file": original_file,
-                    "score": score,
-                    "snippet": snippet
-                })
-
-        except:
+        except Exception:
             pass
 
-    results.sort(
-        key=lambda x: x["score"],
-        reverse=True
-    )
-
+    results.sort(key=lambda x: x["score"], reverse=True)
     return results
-
 @app.route("/")
 def home():
     files = os.listdir(UPLOAD_FOLDER)
