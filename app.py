@@ -503,7 +503,7 @@ def universal():
 
     summary = generate_master_summary(all_text)
 
-    keywords = extract_keywords(all_text)
+    keywords = extract_phrase_concepts(all_text)
 
     concepts = extract_phrase_concepts(all_text)
 
