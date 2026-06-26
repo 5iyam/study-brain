@@ -93,7 +93,7 @@ def extract_keywords(text):
         "as", "by", "at", "from"
     }
     cleaned = []
-
+    
     for word in words:
         word = ''.join(c for c in word if c.isalnum())
         if len(word) < 4:
@@ -103,6 +103,57 @@ def extract_keywords(text):
         cleaned.append(word)
 
     counter = Counter(cleaned)
+    return counter.most_common(10)
+
+
+def extract_main_concepts(text):
+
+    keywords = extract_keywords(text)
+
+    concepts = []
+
+    for word, count in keywords:
+
+        if count >= 2:
+
+            concepts.append(word.title())
+
+    return concepts
+
+
+def extract_phrase_concepts(text):
+
+    words = text.split()
+
+    stop_words = {
+        "the", "is", "a", "an", "of", "to",
+        "and", "or", "for", "in", "on",
+        "with", "this", "that", "are"
+    }
+
+    phrases = []
+
+    for i in range(len(words) - 1):
+
+        first = ''.join(c for c in words[i] if c.isalnum())
+
+        second = ''.join(c for c in words[i + 1] if c.isalnum())
+
+        if len(first) < 3 or len(second) < 3:
+            continue
+
+        if first.lower() in stop_words:
+            continue
+
+        if second.lower() in stop_words:
+            continue
+
+        phrase = first.title() + " " + second.title()
+
+        phrases.append(phrase)
+
+    counter = Counter(phrases)
+
     return counter.most_common(10)
 
 
@@ -454,18 +505,27 @@ def universal():
 
     keywords = extract_keywords(all_text)
 
+    concepts = extract_phrase_concepts(all_text)
+
     questions = []
 
     for word, count in keywords:
 
         questions.append(f"What is {word}?")
 
+    total_characters = len(all_text)
+
+    reading_time = max(1, total_characters // 1000)
+
     return render_template(
         "universal.html",
         summary=summary,
         keywords=keywords,
+        concepts=concepts,
         questions=questions,
-        total_notes=len(files)
+        total_notes=len(files),
+        total_characters=total_characters,
+        reading_time=reading_time,
     )
 
 

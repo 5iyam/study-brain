@@ -80,15 +80,44 @@ li{
 
 <h1>📚 Universal Revision</h1>
 
-<p>
+<h2>📊 Study Overview</h2>
 
-Generated from <b>{{ total_notes }}</b> indexed notes.
+<p><b>Indexed Notes:</b> {{ total_notes }}</p>
 
-</p>
+<p><b>Total Characters:</b> {{ total_characters }}</p>
+
+<p><b>Estimated Reading Time:</b> {{ reading_time }} minute(s)</p>
 
 </div>
 
 <div class="card">
+
+<div class="card">
+
+<h2>🎯 Main Concepts</h2>
+
+{% if concepts %}
+
+<ul>
+
+{% for concept, count in concepts %}
+
+<li>
+<b>{{ concept }}</b>
+({{ count }} mention{{ "s" if count > 1 else "" }})
+</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>No major concepts found yet.</p>
+
+{% endif %}
+
+</div>
 
 <h2>📝 Universal Summary</h2>
 

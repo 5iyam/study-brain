@@ -1,0 +1,26 @@
+Machine learning is a subset of artificial intelligence where & &
+algorithms autonomously identify patterns in data and learn to
+
+make decisions or predictions without explicit, hard-coded 24
+instructions. it powers modern innovations like recommendation
+
+engines, generative Al, and autonomous vehicles. ism +1
+
+Machine Learning
+
+Core Types of Machine Learning
+Machine learning is broadly broken down into several core learning methods:
+
++ Supervised Learning: The model is trained on labeled data (examples that include
+both the input and the desired output) so it can predict outcomes for new, unseen
+data. Examples include predicting house prices or classifying emails as
+Spam. @ YouTube: Brain Station Advanced
+
++ Unsupervised Learning: The algorithm analyzes unlabeled data to find hidden
+structures or patterns. Examples include clustering customers into market
+segments based on purchasing behavior. @ YouTube-Brain station Advanced
+
++ Reinforcement Learning: The algorithm learns by trial and error through rewards
+and penalties, interacting with an environment to maximize its performance.
+Examples include training Al to play chess or optimizing robotic
+Movements. 2 GeeksforGecks

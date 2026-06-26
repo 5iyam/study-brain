@@ -1,0 +1,22 @@
+Aneural network is a set of machine learning algorithms modeled
+after the human brain. It recognizes underlying relationships and
+complex patterns in a dataset through a process that mimics the
+way biological neurons receive, process, and transmit
+
+information. 18M +4
+
+How It Works
+
+Neural networks are built using interconnected “nodes” (or artificial neurons) that are
+organized into layers: » wikipedia +1
+
++ Input Layer: Receives the raw data (e.g,, pixels from an image, numbers from a
+spreadsheet, or text features) and passes it into the network. » Wikipedia +4
+
++ Hidden Layers: Perform mathematical computations on the data. They adjust
+specific values called weights (which determine the importance of an input) and
+biases (which help shift the decision threshold). These layers extract increasingly
+complex patterns as the data travels through them. 4 'sm-+1
+
++ Output Layer: Produces the final result, such as predicting a number or classifying
+an object. » wikivedia «1
