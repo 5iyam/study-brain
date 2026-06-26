@@ -203,12 +203,18 @@ def upload():
 
 @app.route("/search", methods=["POST"])
 def search():
-    query = request.form["query"]       
-    results = search_index(query)       
-    return render_template(             
+
+    query = request.form["query"]
+
+    results = search_index(query)
+
+    indexed_notes = len(os.listdir(INDEX_FOLDER))
+
+    return render_template(
         "search.html",
         query=query,
-        results=results
+        results=results,
+        indexed_notes=indexed_notes
     )
 
 
