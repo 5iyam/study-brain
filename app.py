@@ -157,6 +157,32 @@ def extract_phrase_concepts(text):
     return counter.most_common(10)
 
 
+def generate_revision_questions(text):
+
+    concepts = extract_phrase_concepts(text)
+
+    templates = [
+        "What is {}?",
+        "Explain {}.",
+        "How does {} work?",
+        "Why is {} important?",
+        "Write short notes on {}.",
+        "What are the applications of {}?",
+        "Describe {}.",
+        "Discuss the advantages of {}."
+    ]
+
+    questions = []
+
+    for i, (concept, count) in enumerate(concepts):
+
+        template = templates[i % len(templates)]
+
+        questions.append(template.format(concept))
+
+    return questions
+
+
 def search_notes(query):
     results = []
     files = os.listdir(UPLOAD_FOLDER)
@@ -507,11 +533,7 @@ def universal():
 
     concepts = extract_phrase_concepts(all_text)
 
-    questions = []
-
-    for word, count in keywords:
-
-        questions.append(f"What is {word}?")
+    questions = generate_revision_questions(all_text)
 
     total_characters = len(all_text)
 
