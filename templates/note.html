@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Smart Note</title>
+
+<style>
+
+body{
+
+    font-family:Arial,Helvetica,sans-serif;
+
+    background:#f5f5f5;
+
+    margin:40px;
+
+}
+
+.container{
+
+    width:90%;
+
+    max-width:1000px;
+
+    margin:auto;
+
+}
+
+.card{
+
+    background:white;
+
+    padding:20px;
+
+    margin-bottom:25px;
+
+    border-radius:10px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+
+}
+
+h1,h2{
+
+    color:#2c3e50;
+
+}
+
+img{
+
+    max-width:100%;
+
+    border-radius:8px;
+
+}
+
+pre{
+
+    white-space:pre-wrap;
+
+    font-size:15px;
+
+}
+
+li{
+
+    margin-bottom:8px;
+
+}
+
+.back{
+
+    text-decoration:none;
+
+    background:#3498db;
+
+    color:white;
+
+    padding:10px 15px;
+
+    border-radius:6px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>{{ filename }}</h1>
+
+</div>
+
+<div class="card">
+
+<h2>🖼 Original File</h2>
+
+{% if filename.endswith('.png') or filename.endswith('.jpg') or filename.endswith('.jpeg') %}
+
+<img src="/image/{{ filename }}">
+
+{% else %}
+
+<p>{{ filename }}</p>
+
+{% endif %}
+
+</div>
+
+<div class="card">
+
+<h2>📖 OCR Text</h2>
+
+<pre>{{ text }}</pre>
+
+</div>
+
+<div class="card">
+
+<h2>📝 Better Summary</h2>
+
+<ul>
+
+{% for line in summary %}
+
+<li>{{ line }}</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>🔑 Keywords</h2>
+
+<ul>
+
+{% for word, count in keywords %}
+
+<li>{{ word }} ({{ count }})</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>❓ Revision Questions</h2>
+
+<ol>
+
+{% for question in questions %}
+
+<li>{{ question }}</li>
+
+{% endfor %}
+
+</ol>
+
+</div>
+
+<a class="back" href="/">⬅ Back Home</a>
+
+</div>
+
+</body>
+
+</html>

@@ -324,5 +324,29 @@ def questions(filename):
     return html
 
 
+@app.route("/smart/<filename>")
+def smart_note(filename):
+
+    text = get_index_text(filename)
+
+    summary = generate_summary(text)
+
+    keywords = extract_keywords(text)
+
+    questions = []
+
+    for word, count in keywords:
+        questions.append(f"What is {word}?")
+
+    return render_template(
+        "note.html",
+        filename=filename,
+        text=text,
+        summary=summary,
+        keywords=keywords,
+        questions=questions
+    )
+
+    
 if __name__ == "__main__":
     app.run(debug=True)
