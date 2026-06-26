@@ -3,6 +3,7 @@ import os
 import pytesseract
 from PIL import Image
 from collections import Counter
+import re
 
 app = Flask(__name__)
 
@@ -130,12 +131,14 @@ def search_index(query):
             pos = text.lower().find(query.lower())
             start = max(0, pos - 60)
             end = min(len(text), pos + 120)
-            snippet = text[start:end]
+            snippet = "..." + text[start:end] + "..."
 
-            snippet = snippet.replace(
-                query,
-                f"<mark>{query}</mark>"
-            )
+            snippet = re.sub(
+    re.escape(query),
+    lambda m: f"<mark>{m.group(0)}</mark>",
+    snippet,
+    flags=re.IGNORECASE
+)
 
             base_name = os.path.splitext(file)[0]
             display_name = base_name + ".txt"
@@ -149,9 +152,21 @@ def search_index(query):
                     file_type = "image"
                     break
 
+            if score == 1:
+                relevance = "⭐ Fair Match"
+            elif score <= 3:
+                relevance = "⭐⭐ Good Match"
+            elif score <= 6:
+                relevance = "⭐⭐⭐ Very Good Match"
+            elif score <= 10:
+                relevance = "⭐⭐⭐⭐ Excellent Match"
+            else:
+                relevance = "⭐⭐⭐⭐⭐ Perfect Match"
+
             results.append({
                 "file": display_name,
                 "score": score,
+                "relevance": relevance,
                 "snippet": snippet,
                 "type": file_type
             })
