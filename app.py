@@ -34,6 +34,55 @@ def generate_summary(text):
     return cleaned[:5]
 
 
+def generate_master_summary(text):
+
+    lines = text.split("\n")
+
+    summary = []
+
+    seen = set()
+
+    ignore_words = [
+        "name",
+        "roll",
+        "date",
+        "page",
+        "class",
+        "section"
+    ]
+
+    for line in lines:
+
+        line = line.strip()
+
+        if len(line) < 40:
+            continue
+
+        lower = line.lower()
+
+        skip = False
+
+        for word in ignore_words:
+
+            if word in lower:
+                skip = True
+                break
+
+        if skip:
+            continue
+
+        if lower in seen:
+            continue
+
+        seen.add(lower)
+
+        summary.append(line)
+
+    summary.sort(key=lambda x: len(x.split()), reverse=True)
+
+    return summary[:10]
+
+
 def extract_keywords(text):
     words = text.lower().split()
     stop_words = {
@@ -109,6 +158,33 @@ def get_index_text(filename):
 
     with open(index_path, "r", encoding="utf-8") as f:
         return f.read()
+
+
+def clean_combined_text(text):
+
+    lines = text.split("\n")
+
+    cleaned = []
+
+    seen = set()
+
+    for line in lines:
+
+        line = line.strip()
+
+        if len(line) < 5:
+            continue
+
+        lower = line.lower()
+
+        if lower in seen:
+            continue
+
+        seen.add(lower)
+
+        cleaned.append(line)
+
+    return "\n".join(cleaned)
 
 
 def search_index(query):
@@ -372,7 +448,9 @@ def universal():
 
             pass
 
-    summary = generate_summary(all_text)
+    all_text = clean_combined_text(all_text)
+
+    summary = generate_master_summary(all_text)
 
     keywords = extract_keywords(all_text)
 
