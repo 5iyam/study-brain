@@ -347,6 +347,49 @@ def smart_note(filename):
         questions=questions
     )
 
-    
+
+
+@app.route("/universal")
+def universal():
+
+    all_text = ""
+
+    files = os.listdir(INDEX_FOLDER)
+
+    for file in files:
+
+        path = os.path.join(INDEX_FOLDER, file)
+
+        try:
+
+            with open(path, "r", encoding="utf-8") as f:
+
+                all_text += "\n\n"
+
+                all_text += f.read()
+
+        except:
+
+            pass
+
+    summary = generate_summary(all_text)
+
+    keywords = extract_keywords(all_text)
+
+    questions = []
+
+    for word, count in keywords:
+
+        questions.append(f"What is {word}?")
+
+    return render_template(
+        "universal.html",
+        summary=summary,
+        keywords=keywords,
+        questions=questions,
+        total_notes=len(files)
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True)
