@@ -1,0 +1,15 @@
+JSON (JavaScript Object Notation) is a lightweight, human-readable text format
+used to store and transport structured data. It is commonly used for transmitting
+data between a server and a web application or as a configuration
+
+format. w waschools +3
+
+Core Rules & Syntax
+
++ Language Agnostic: Although derived from JavaScript, JSON can be parsed and
+generated in almost any programming language.
+
++ No Comments: JSON does not support comments; it is used strictly for data.
+
+* Double Quotes: All keys and string values must be enclosed in double
+quotes. © Json +3

@@ -312,6 +312,30 @@ def load_metadata():
         return json.load(f)
 
 
+def get_topics():
+
+    metadata = load_metadata()
+
+    topics = {}
+
+    for filename, info in metadata.items():
+
+        topics[filename] = info.get("topic", "Unknown")
+
+    return topics
+
+
+def get_topic(filename):
+
+    metadata = load_metadata()
+
+    if filename in metadata:
+
+        return metadata[filename].get("topic", "Unknown")
+
+    return "Unknown"
+
+
 def save_metadata(data):
 
     with open(METADATA_FILE, "w", encoding="utf-8") as f:
@@ -322,7 +346,7 @@ def migrate_topics_to_metadata():
 
     metadata = load_metadata()
 
-    topics = load_topics()
+    topics = get_topics()
 
     changed = False
 
@@ -409,7 +433,7 @@ def search_index(query):
 @app.route("/")
 def home():
     files = os.listdir(UPLOAD_FOLDER)
-    topics = load_topics()
+    topics = get_topics()
     return render_template(
         "index.html",
         files=files,
@@ -434,11 +458,16 @@ def upload():
 
         create_index(file.filename)
 
-        topics = load_topics()
+        metadata = load_metadata()
 
-        topics[file.filename] = topic
+        metadata[file.filename] = {
+            "topic": topic,
+            "date": datetime.now().strftime("%Y-%m-%d")
+        }
 
-        save_topics(topics)
+        save_metadata(metadata)
+
+        
 
     return home()
 
@@ -646,7 +675,7 @@ def universal():
 @app.route("/topics")
 def topics():
 
-    topic_data = load_topics()
+    topic_data = get_topics()
 
     topic_count = {}
 
@@ -666,7 +695,7 @@ def topics():
 @app.route("/topic/<topic_name>")
 def topic(topic_name):
 
-    topics = load_topics()
+    topics = get_topics()
 
     files = []
 
@@ -703,6 +732,59 @@ def topic(topic_name):
         keywords=keywords,
         questions=questions
     )
+
+
+
+@app.route("/time")
+def time_revision():
+
+    return render_template("time.html")
+
+
+
+@app.route("/time/today")
+def today_revision():
+
+    metadata = load_metadata()
+
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    files = []
+
+    combined_text = ""
+
+    for filename, info in metadata.items():
+
+        if info.get("date") == today:
+
+            files.append(filename)
+
+            combined_text += "\n"
+
+            combined_text += get_index_text(filename)
+
+    combined_text = clean_combined_text(combined_text)
+
+    summary = generate_master_summary(combined_text)
+
+    phrase_data = extract_phrase_concepts(combined_text)
+
+    concepts = phrase_data[:5]
+
+    keywords = phrase_data
+
+    questions = generate_revision_questions(combined_text)
+
+    return render_template(
+        "time_result.html",
+        title="Today's Revision",
+        files=files,
+        summary=summary,
+        concepts=concepts,
+        keywords=keywords,
+        questions=questions
+    )
+
 
 if __name__ == "__main__":
 
