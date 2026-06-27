@@ -154,7 +154,7 @@ def extract_phrase_concepts(text):
 
     counter = Counter(phrases)
 
-    return counter.most_common(10)
+    return counter.most_common(15)
 
 
 def generate_revision_questions(text):
@@ -529,9 +529,12 @@ def universal():
 
     summary = generate_master_summary(all_text)
 
-    keywords = extract_phrase_concepts(all_text)
+    phrase_data = extract_phrase_concepts(all_text)
 
-    concepts = extract_phrase_concepts(all_text)
+    keywords = phrase_data
+
+    concepts = phrase_data[:5]
+
 
     questions = generate_revision_questions(all_text)
 
