@@ -73,33 +73,33 @@
 
 {% for file in files %}
 
-<div
-style="
-border:1px solid #ddd;
-padding:15px;
-margin-bottom:15px;
-border-radius:10px;
-">
+<div class="card">
+
+{% if file.endswith('.jpg') or file.endswith('.jpeg') or file.endswith('.png') %}
 
 <h3>{{ file }}</h3>
 
-{% if file.endswith('.png') or file.endswith('.jpg') or file.endswith('.jpeg') %}
+<div class="actions">
 
-<a href="/note/{{ file }}">
-🧠 Smart Note
-</a>
+<a href="/smart/{{ file }}">📄 Smart Note</a>
 
-|
+<a href="/image/{{ file }}">🖼 View Image</a>
 
-<a href="/image/{{ file }}">
-🖼 View Image
-</a>
+</div>
+
+<br>
+
+<img src="/image/{{ file }}" width="250">
 
 {% else %}
 
-<a href="/note/{{ file }}">
-🧠 Smart Note
-</a>
+<h3>{{ file }}</h3>
+
+<div class="actions">
+
+<a href="/smart/{{ file }}">📄 Smart Note</a>
+
+</div>
 
 {% endif %}
 
