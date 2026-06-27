@@ -36,6 +36,41 @@
         a:hover{
             background:#2980b9;
         }
+        input[type="date"]{
+
+        padding:10px;
+
+        width:220px;
+
+    font-size:16px;
+
+}
+
+button{
+
+    background:#3498db;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:10px 18px;
+
+}
+
+button:hover{
+
+    background:#2980b9;
+
+}
+
+.card{
+
+    margin-bottom:30px;
+
+}
 
     </style>
 
@@ -47,15 +82,55 @@
 
 <div class="card">
 
+<h2>⚡ Quick Revision</h2>
+
 <a href="/time/today">📅 Today</a>
 
-<a href="#">📅 Yesterday</a>
+<a href="/time/yesterday">📅 Yesterday</a>
 
-<a href="#">📅 Last 7 Days</a>
+<a href="/time/week">📅 Last 7 Days</a>
 
-<a href="#">📅 Last 30 Days</a>
+<a href="/time/month">📅 Last 30 Days</a>
 
-<a href="#">📅 Custom Date Range</a>
+</div>
+
+<div class="card">
+
+<h2>🧠 Custom Revision</h2>
+
+<form action="/time/custom" method="POST">
+
+<label><b>From</b></label>
+
+<br><br>
+
+<input
+    type="date"
+    name="start_date"
+    required
+>
+
+<br><br>
+
+<label><b>To</b></label>
+
+<br><br>
+
+<input
+    type="date"
+    name="end_date"
+    required
+>
+
+<br><br>
+
+<button type="submit">
+
+🧠 Generate Revision
+
+</button>
+
+</form>
 
 </div>
 

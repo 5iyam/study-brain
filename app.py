@@ -297,7 +297,7 @@ def save_topics(topics):
 
 
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 METADATA_FILE = "metadata.json"
@@ -724,8 +724,10 @@ def topic(topic_name):
     questions = generate_revision_questions(combined_text)
 
     return render_template(
-        "topic.html",
-        topic_name=topic_name,
+        "revision.html",
+        title=f"📂 {topic_name}",
+        back_url="/topics",
+        back_text="⬅ Back to Topics",
         files=files,
         summary=summary,
         concepts=concepts,
@@ -741,13 +743,9 @@ def time_revision():
     return render_template("time.html")
 
 
-
-@app.route("/time/today")
-def today_revision():
+def generate_time_revision(start_date, end_date):
 
     metadata = load_metadata()
-
-    today = datetime.now().strftime("%Y-%m-%d")
 
     files = []
 
@@ -755,7 +753,12 @@ def today_revision():
 
     for filename, info in metadata.items():
 
-        if info.get("date") == today:
+        note_date = info.get("date")
+
+        if note_date is None:
+            continue
+
+        if start_date <= note_date <= end_date:
 
             files.append(filename)
 
@@ -775,14 +778,118 @@ def today_revision():
 
     questions = generate_revision_questions(combined_text)
 
+    return {
+        "files": files,
+        "summary": summary,
+        "concepts": concepts,
+        "keywords": keywords,
+        "questions": questions
+    }
+
+
+@app.route("/time/today")
+def today_revision():
+
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    data = generate_time_revision(today, today)
+
     return render_template(
-        "time_result.html",
-        title="Today's Revision",
-        files=files,
-        summary=summary,
-        concepts=concepts,
-        keywords=keywords,
-        questions=questions
+        "revision.html",
+        title="📅 Today's Revision",
+        back_url="/time",
+        back_text="⬅ Back to Time-wise Revision",
+        files=data["files"],
+        summary=data["summary"],
+        concepts=data["concepts"],
+        keywords=data["keywords"],
+        questions=data["questions"]
+    )
+
+
+@app.route("/time/yesterday")
+def yesterday_revision():
+
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+
+    data = generate_time_revision(yesterday, yesterday)
+
+    return render_template(
+        "revision.html",
+        title="📅 Yesterday's Revision",
+        back_url="/time",
+        back_text="⬅ Back to Time-wise Revision",
+        files=data["files"],
+        summary=data["summary"],
+        concepts=data["concepts"],
+        keywords=data["keywords"],
+        questions=data["questions"]
+    )
+
+
+@app.route("/time/week")
+def last_week_revision():
+
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    last_week = (datetime.now() - timedelta(days=6)).strftime("%Y-%m-%d")
+
+    data = generate_time_revision(last_week, today)
+
+    return render_template(
+        "revision.html",
+        title="📅 Last 7 Days Revision",
+        back_url="/time",
+        back_text="⬅ Back to Time-wise Revision",
+        files=data["files"],
+        summary=data["summary"],
+        concepts=data["concepts"],
+        keywords=data["keywords"],
+        questions=data["questions"]
+    )
+
+
+@app.route("/time/month")
+def last_month_revision():
+
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    last_month = (datetime.now() - timedelta(days=29)).strftime("%Y-%m-%d")
+
+    data = generate_time_revision(last_month, today)
+
+    return render_template(
+        "revision.html",
+        title="📅 Last 30 Days Revision",
+        back_url="/time",
+        back_text="⬅ Back to Time-wise Revision",
+        files=data["files"],
+        summary=data["summary"],
+        concepts=data["concepts"],
+        keywords=data["keywords"],
+        questions=data["questions"]
+    )
+
+
+@app.route("/time/custom", methods=["POST"])
+def custom_revision():
+
+    start_date = request.form["start_date"]
+
+    end_date = request.form["end_date"]
+
+    data = generate_time_revision(start_date, end_date)
+
+    return render_template(
+        "revision.html",
+        title=f"📅 Revision ({start_date} → {end_date})",
+        back_url="/time",
+        back_text="⬅ Back to Time-wise Revision",
+        files=data["files"],
+        summary=data["summary"],
+        concepts=data["concepts"],
+        keywords=data["keywords"],
+        questions=data["questions"]
     )
 
 
