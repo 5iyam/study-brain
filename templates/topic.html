@@ -69,17 +69,43 @@
 
 <hr>
 
-<h2>📚 Notes</h2>
-
-<ul>
+<h2>📚 Notes in this Topic</h2>
 
 {% for file in files %}
 
-<li>{{ file }}</li>
+<div
+style="
+border:1px solid #ddd;
+padding:15px;
+margin-bottom:15px;
+border-radius:10px;
+">
+
+<h3>{{ file }}</h3>
+
+{% if file.endswith('.png') or file.endswith('.jpg') or file.endswith('.jpeg') %}
+
+<a href="/note/{{ file }}">
+🧠 Smart Note
+</a>
+
+|
+
+<a href="/image/{{ file }}">
+🖼 View Image
+</a>
+
+{% else %}
+
+<a href="/note/{{ file }}">
+🧠 Smart Note
+</a>
+
+{% endif %}
+
+</div>
 
 {% endfor %}
-
-</ul>
 
 </body>
 
