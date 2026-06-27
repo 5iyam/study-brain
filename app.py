@@ -296,6 +296,51 @@ def save_topics(topics):
         )
 
 
+import json
+from datetime import datetime
+
+
+METADATA_FILE = "metadata.json"
+
+
+def load_metadata():
+
+    if not os.path.exists(METADATA_FILE):
+        return {}
+
+    with open(METADATA_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def save_metadata(data):
+
+    with open(METADATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
+
+
+def migrate_topics_to_metadata():
+
+    metadata = load_metadata()
+
+    topics = load_topics()
+
+    changed = False
+
+    for filename, topic in topics.items():
+
+        if filename not in metadata:
+
+            metadata[filename] = {
+                "topic": topic,
+                "date": datetime.now().strftime("%Y-%m-%d")
+            }
+
+            changed = True
+
+    if changed:
+        save_metadata(metadata)
+
+
 def search_index(query):
     results = []
     files = os.listdir(INDEX_FOLDER)
@@ -660,4 +705,7 @@ def topic(topic_name):
     )
 
 if __name__ == "__main__":
+
+    migrate_topics_to_metadata()
+
     app.run(debug=True)
