@@ -63,8 +63,28 @@
 <div class="card">
 
 <form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="note" required>
-    <button type="submit">Upload</button>
+
+<input type="file" name="note" required>
+
+<br><br>
+
+<label><b>Topic</b></label>
+
+<br>
+
+<input
+    type="text"
+    name="topic"
+    placeholder="Example: Artificial Intelligence"
+    required
+>
+
+<br><br>
+
+<button type="submit">
+    Upload
+</button>
+
 </form>
 
 </div>
@@ -98,6 +118,12 @@
 
 <hr>
 
+<p>
+    <a href="/topics">📂 Browse Topics</a>
+</p>
+
+<hr>
+
 <h2>Uploaded Files</h2>
 
 {% for file in files %}
@@ -107,6 +133,11 @@
 {% if file.endswith('.jpg') or file.endswith('.jpeg') or file.endswith('.png') %}
 
 <h3>{{ file }}</h3>
+
+<p>
+    <strong>📂 Topic:</strong>
+    {{ topics.get(file, "No Topic") }}
+</p>
 
 <div class="actions">
 

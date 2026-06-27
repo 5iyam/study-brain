@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
 INDEX_FOLDER = "index"
+TOPIC_FILE = "topics.json"
 
 
 def generate_summary(text):
@@ -264,6 +265,37 @@ def clean_combined_text(text):
     return "\n".join(cleaned)
 
 
+def load_topics():
+
+    if not os.path.exists(TOPIC_FILE):
+        return {}
+
+    try:
+
+        import json
+
+        with open(TOPIC_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    except:
+
+        return {}
+
+
+def save_topics(topics):
+
+    import json
+
+    with open(TOPIC_FILE, "w", encoding="utf-8") as f:
+
+        json.dump(
+            topics,
+            f,
+            indent=4,
+            ensure_ascii=False
+        )
+
+
 def search_index(query):
     results = []
     files = os.listdir(INDEX_FOLDER)
@@ -332,13 +364,19 @@ def search_index(query):
 @app.route("/")
 def home():
     files = os.listdir(UPLOAD_FOLDER)
-    return render_template("index.html", files=files)
+    topics = load_topics()
+    return render_template(
+        "index.html",
+        files=files,
+        topics=topics
+    )
 
 
 @app.route("/upload", methods=["POST"])
 def upload():
 
     file = request.files["note"]
+    topic = request.form["topic"].strip()
 
     if file and file.filename:
 
@@ -350,6 +388,12 @@ def upload():
         )
 
         create_index(file.filename)
+
+        topics = load_topics()
+
+        topics[file.filename] = topic
+
+        save_topics(topics)
 
     return home()
 
@@ -553,6 +597,67 @@ def universal():
         reading_time=reading_time,
     )
 
+
+@app.route("/topics")
+def topics():
+
+    topic_data = load_topics()
+
+    topic_count = {}
+
+    for filename, topic in topic_data.items():
+
+        if topic not in topic_count:
+            topic_count[topic] = 0
+
+        topic_count[topic] += 1
+
+    return render_template(
+        "topics.html",
+        topic_count=topic_count
+    )
+
+
+@app.route("/topic/<topic_name>")
+def topic(topic_name):
+
+    topics = load_topics()
+
+    files = []
+
+    combined_text = ""
+
+    for filename, topic in topics.items():
+
+        if topic == topic_name:
+
+            files.append(filename)
+
+            combined_text += "\n"
+
+            combined_text += get_index_text(filename)
+
+    combined_text = clean_combined_text(combined_text)
+
+    summary = generate_master_summary(combined_text)
+
+    phrase_data = extract_phrase_concepts(combined_text)
+
+    concepts = phrase_data[:5]
+
+    keywords = phrase_data
+
+    questions = generate_revision_questions(combined_text)
+
+    return render_template(
+        "topic.html",
+        topic_name=topic_name,
+        files=files,
+        summary=summary,
+        concepts=concepts,
+        keywords=keywords,
+        questions=questions
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

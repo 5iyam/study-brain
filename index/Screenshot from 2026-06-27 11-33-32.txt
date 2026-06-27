@@ -1,0 +1,23 @@
+Artificial Intelligence (Al) is a branch of computer science focused on building
+machines and software capable of performing tasks that typically require human
+intelligence. These tasks include learning from data, recognizing patterns,
+understanding language, solving problems, and making decisions. 18\+3
+
+Unlike traditional computer programs that follow rigid, step-by-step instructions
+programmed by humans, Al systems analyze massive amounts of information to
+identify trends and adapt over time. @ Michigan Technological University +1
+
+How Al Works
+
+Al relies on a few foundational technologies to simulate human reasoning:
+
+* Machine Learning (ML): A foundational subset of Al where computers are trained
+on large datasets rather than explicitly programmed. By seeing millions of
+examples, the Al learns to perform a specific task (like recognizing a face or
+translating a language). @ Southern New Hampshire University +2
+
+* Deep Learning: A more complex form of ML that uses neural networks to mimic th
+human brain, allowing Al to process highly unstructured data like audio or visual
+information. &
+
++ Large Language Models (LLMs): The engines behind modern conversational Al.

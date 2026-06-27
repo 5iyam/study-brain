@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ topic_name }}</title>
+</head>
+
+<body>
+
+<h1>📂 {{ topic_name }}</h1>
+
+<a href="/topics">⬅ Back to Topics</a>
+
+<hr>
+
+<h2>📄 Summary</h2>
+
+<ul>
+
+{% for line in summary %}
+
+<li>{{ line }}</li>
+
+{% endfor %}
+
+</ul>
+
+<hr>
+
+<h2>🎯 Main Concepts</h2>
+
+<ul>
+
+{% for concept, count in concepts %}
+
+<li>{{ concept }}</li>
+
+{% endfor %}
+
+</ul>
+
+<hr>
+
+<h2>🔑 Keywords</h2>
+
+<ul>
+
+{% for keyword, count in keywords %}
+
+<li>{{ keyword }}</li>
+
+{% endfor %}
+
+</ul>
+
+<hr>
+
+<h2>❓ Revision Questions</h2>
+
+<ol>
+
+{% for question in questions %}
+
+<li>{{ question }}</li>
+
+{% endfor %}
+
+</ol>
+
+<hr>
+
+<h2>📚 Notes</h2>
+
+<ul>
+
+{% for file in files %}
+
+<li>{{ file }}</li>
+
+{% endfor %}
+
+</ul>
+
+</body>
+
+</html>
