@@ -1,0 +1,33 @@
+> .vscode
+\ study-brain
+Y _pycache_
+app.cpython-312.pyc
+> index
+v templates
+<> index_backup.html
+© index_before_better_summary.html
+© index.html
+< notehtml
+© revision.html
+<> search.html
+<> time.html
+© topic.html
+<> topics.html
+© universal.html
+
+> uploads
+
+> venv
+© gitignore
+
+® app_backup.py
+
+® app_before_better_summary.py
+® app.py
+
+{} metadata.json
+
+@ README.md
+
+{} topicsjson
+

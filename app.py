@@ -4,6 +4,7 @@ import pytesseract
 from PIL import Image
 from collections import Counter
 import re
+from services.metadata_service import load_metadata
 
 app = Flask(__name__)
 
@@ -303,13 +304,13 @@ from datetime import datetime, timedelta
 METADATA_FILE = "metadata.json"
 
 
-def load_metadata():
+# def load_metadata():
 
-    if not os.path.exists(METADATA_FILE):
-        return {}
+#     if not os.path.exists(METADATA_FILE):
+#         return {}
 
-    with open(METADATA_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+#     with open(METADATA_FILE, "r", encoding="utf-8") as f:
+#         return json.load(f)
 
 
 def get_topics():

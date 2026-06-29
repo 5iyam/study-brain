@@ -23,9 +23,9 @@ An AI-assisted study tool built with Python and Flask.
 - Search notes
 - Flashcards
 - Local AI integration
-cd ~/Desktop/study-brain
-source venv/bin/activate
-python -m py_compile app.py
+## cd ~/Desktop/study-brain
+## source venv/bin/activate
+## python -m py_compile app.py
 # Study Brain Roadmap
 
 ## ✅ v1.9 Stable
