@@ -38,9 +38,13 @@ from services.search_service import (
 )
 from services.ocr_service import extract_text_from_image
 from routes.home import home_bp
+from routes.upload import upload_bp
+from routes.search import search_bp
 
 app = Flask(__name__)
 app.register_blueprint(home_bp)
+app.register_blueprint(upload_bp)
+app.register_blueprint(search_bp)
 
 UPLOAD_FOLDER = "uploads"
 INDEX_FOLDER = "index"
@@ -99,50 +103,50 @@ METADATA_FILE = "metadata.json"
 #     )
 
 
-@app.route("/upload", methods=["POST"])
-def upload():
+# @app.route("/upload", methods=["POST"])
+# def upload():
 
-    file = request.files["note"]
-    topic = request.form["topic"].strip()
+#     file = request.files["note"]
+#     topic = request.form["topic"].strip()
 
-    if file and file.filename:
+#     if file and file.filename:
 
-        file.save(
-            os.path.join(
-                UPLOAD_FOLDER,
-                file.filename
-            )
-        )
+#         file.save(
+#             os.path.join(
+#                 UPLOAD_FOLDER,
+#                 file.filename
+#             )
+#         )
 
-        create_index(file.filename)
+#         create_index(file.filename)
 
-        metadata = load_metadata()
+#         metadata = load_metadata()
 
-        metadata[file.filename] = {
-            "topic": topic,
-            "date": datetime.now().strftime("%Y-%m-%d")
-        }
+#         metadata[file.filename] = {
+#             "topic": topic,
+#             "date": datetime.now().strftime("%Y-%m-%d")
+#         }
 
-        save_metadata(metadata)
+#         save_metadata(metadata)
 
-        return redirect(url_for("home.home"))
+#         return redirect(url_for("home.home"))
 
 
-@app.route("/search", methods=["POST"])
-def search():
+# @app.route("/search", methods=["POST"])
+# def search():
 
-    query = request.form["query"]
+#     query = request.form["query"]
 
-    results = search_index(query)
+#     results = search_index(query)
 
-    indexed_notes = len(os.listdir(INDEX_FOLDER))
+#     indexed_notes = len(os.listdir(INDEX_FOLDER))
 
-    return render_template(
-        "search.html",
-        query=query,
-        results=results,
-        indexed_notes=indexed_notes
-    )
+#     return render_template(
+#         "search.html",
+#         query=query,
+#         results=results,
+#         indexed_notes=indexed_notes
+#     )
 
 
 @app.route("/note/<filename>")
