@@ -14,8 +14,7 @@ Functions:
 # ==================================================
 
 import os
-import pytesseract
-from PIL import Image
+from services.ocr_service import extract_text_from_image
 
 
 # ==================================================
@@ -74,7 +73,7 @@ def create_index(filename):
 
     try:
         if filename.lower().endswith((".png", ".jpg", ".jpeg")):
-            text = pytesseract.image_to_string(Image.open(upload_path))
+            text = extract_text_from_image(upload_path)
         else:
             with open(upload_path, "r", errors="ignore") as f:
                 text = f.read()
