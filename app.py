@@ -4,6 +4,11 @@ import pytesseract
 from PIL import Image
 from collections import Counter
 import re
+from services.index_service import (
+    get_index_text,
+    clean_combined_text,
+    create_index,
+)
 from services.metadata_service import (
     load_metadata,
     save_metadata,
@@ -214,62 +219,53 @@ def search_notes(query):
     return results
 
 
-def create_index(filename):
-    upload_path = os.path.join(UPLOAD_FOLDER, filename)
-    index_filename = os.path.splitext(filename)[0] + ".txt"
-    index_path = os.path.join(INDEX_FOLDER, index_filename)
-    text = ""
+# def create_index(filename):
+#     upload_path = os.path.join(UPLOAD_FOLDER, filename)
+#     index_filename = os.path.splitext(filename)[0] + ".txt"
+#     index_path = os.path.join(INDEX_FOLDER, index_filename)
+#     text = ""
 
-    try:
-        if filename.lower().endswith((".png", ".jpg", ".jpeg")):
-            text = pytesseract.image_to_string(Image.open(upload_path))
-        else:
-            with open(upload_path, "r", errors="ignore") as f:
-                text = f.read()
+#     try:
+#         if filename.lower().endswith((".png", ".jpg", ".jpeg")):
+#             text = pytesseract.image_to_string(Image.open(upload_path))
+#         else:
+#             with open(upload_path, "r", errors="ignore") as f:
+#                 text = f.read()
 
-        with open(index_path, "w", encoding="utf-8") as f:
-            f.write(text)
+#         with open(index_path, "w", encoding="utf-8") as f:
+#             f.write(text)
 
-    except Exception as e:
-        print("Indexing Error:", e)
-
-
-def get_index_text(filename):
-    index_filename = os.path.splitext(filename)[0] + ".txt"
-    index_path = os.path.join(INDEX_FOLDER, index_filename)
-
-    if not os.path.exists(index_path):
-        return ""
-
-    with open(index_path, "r", encoding="utf-8") as f:
-        return f.read()
+#     except Exception as e:
+#         print("Indexing Error:", e)
 
 
-def clean_combined_text(text):
 
-    lines = text.split("\n")
 
-    cleaned = []
+# def clean_combined_text(text):
 
-    seen = set()
+#     lines = text.split("\n")
 
-    for line in lines:
+#     cleaned = []
 
-        line = line.strip()
+#     seen = set()
 
-        if len(line) < 5:
-            continue
+#     for line in lines:
 
-        lower = line.lower()
+#         line = line.strip()
 
-        if lower in seen:
-            continue
+#         if len(line) < 5:
+#             continue
 
-        seen.add(lower)
+#         lower = line.lower()
 
-        cleaned.append(line)
+#         if lower in seen:
+#             continue
 
-    return "\n".join(cleaned)
+#         seen.add(lower)
+
+#         cleaned.append(line)
+
+#     return "\n".join(cleaned)
 
 
 def load_topics():
@@ -309,67 +305,6 @@ from datetime import datetime, timedelta
 
 METADATA_FILE = "metadata.json"
 
-
-# def load_metadata():
-
-#     if not os.path.exists(METADATA_FILE):
-#         return {}
-
-#     with open(METADATA_FILE, "r", encoding="utf-8") as f:
-#         return json.load(f)
-
-
-# def get_topics():
-
-#     metadata = load_metadata()
-
-#     topics = {}
-
-#     for filename, info in metadata.items():
-
-#         topics[filename] = info.get("topic", "Unknown")
-
-#     return topics
-
-
-# def get_topic(filename):
-
-#     metadata = load_metadata()
-
-#     if filename in metadata:
-
-#         return metadata[filename].get("topic", "Unknown")
-
-#     return "Unknown"
-
-
-# def save_metadata(data):
-
-#     with open(METADATA_FILE, "w", encoding="utf-8") as f:
-#         json.dump(data, f, indent=4)
-
-
-# def migrate_topics_to_metadata():
-
-#     metadata = load_metadata()
-
-#     topics = get_topics()
-
-#     changed = False
-
-#     for filename, topic in topics.items():
-
-#         if filename not in metadata:
-
-#             metadata[filename] = {
-#                 "topic": topic,
-#                 "date": datetime.now().strftime("%Y-%m-%d")
-#             }
-
-#             changed = True
-
-#     if changed:
-#         save_metadata(metadata)
 
 
 def search_index(query):

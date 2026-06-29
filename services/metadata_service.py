@@ -1,10 +1,35 @@
+"""
+Metadata Service
+
+Handles all metadata operations.
+
+Functions:
+- load_metadata()
+- save_metadata()
+- get_topic()
+- get_topics()
+- migrate_topics_to_metadata()
+"""
+# ==================================================
+# Imports
+# ==================================================
+
+
 import json
 import os
+from datetime import datetime
 
-
+# ==================================================
+# Constants
+# ==================================================
 
 METADATA_FILE = "metadata.json"
 TOPIC_FILE = "topics.json"
+
+# ==================================================
+# Metadata Functions
+# ==================================================
+
 
 
 def load_metadata():

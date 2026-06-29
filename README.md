@@ -69,3 +69,46 @@ An AI-assisted study tool built with Python and Flask.
 ### Fixed
 - Topic JSON migration
 - Route organization
+"""
+Metadata Service
+
+Handles all metadata operations.
+
+Functions:
+- load_metadata()
+- save_metadata()
+- get_topic()
+- get_topics()
+- migrate_topics_to_metadata()
+"""
+
+# ==================================================
+# Imports
+# ==================================================
+
+import json
+import os
+from datetime import datetime
+
+
+# ==================================================
+# Constants
+# ==================================================
+
+METADATA_FILE = "metadata.json"
+TOPIC_FILE = "topics.json"
+
+
+# ==================================================
+# Metadata Functions
+# ==================================================
+
+# load_metadata()
+
+# save_metadata()
+
+# get_topic()
+
+# get_topics()
+
+# migrate_topics_to_metadata()
