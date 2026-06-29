@@ -281,56 +281,56 @@ def smart_note(filename):
 
 
 
-@app.route("/universal")
-def universal():
+# @app.route("/universal")
+# def universal():
 
-    all_text = ""
+#     all_text = ""
 
-    files = os.listdir(INDEX_FOLDER)
+#     files = os.listdir(INDEX_FOLDER)
 
-    for file in files:
+#     for file in files:
 
-        path = os.path.join(INDEX_FOLDER, file)
+#         path = os.path.join(INDEX_FOLDER, file)
 
-        try:
+#         try:
 
-            with open(path, "r", encoding="utf-8") as f:
+#             with open(path, "r", encoding="utf-8") as f:
 
-                all_text += "\n\n"
+#                 all_text += "\n\n"
 
-                all_text += f.read()
+#                 all_text += f.read()
 
-        except:
+#         except:
 
-            pass
+#             pass
 
-    all_text = clean_combined_text(all_text)
+#     all_text = clean_combined_text(all_text)
 
-    summary = generate_master_summary(all_text)
+#     summary = generate_master_summary(all_text)
 
-    phrase_data = extract_phrase_concepts(all_text)
+#     phrase_data = extract_phrase_concepts(all_text)
 
-    keywords = phrase_data
+#     keywords = phrase_data
 
-    concepts = phrase_data[:5]
+#     concepts = phrase_data[:5]
 
 
-    questions = generate_revision_questions(all_text)
+#     questions = generate_revision_questions(all_text)
 
-    total_characters = len(all_text)
+#     total_characters = len(all_text)
 
-    reading_time = max(1, total_characters // 1000)
+#     reading_time = max(1, total_characters // 1000)
 
-    return render_template(
-        "universal.html",
-        summary=summary,
-        keywords=keywords,
-        concepts=concepts,
-        questions=questions,
-        total_notes=len(files),
-        total_characters=total_characters,
-        reading_time=reading_time,
-    )
+#     return render_template(
+#         "universal.html",
+#         summary=summary,
+#         keywords=keywords,
+#         concepts=concepts,
+#         questions=questions,
+#         total_notes=len(files),
+#         total_characters=total_characters,
+#         reading_time=reading_time,
+#     )
 
 
 # @app.route("/topics")
