@@ -4,7 +4,13 @@ import pytesseract
 from PIL import Image
 from collections import Counter
 import re
-from services.metadata_service import load_metadata
+from services.metadata_service import (
+    load_metadata,
+    save_metadata,
+    get_topic,
+    get_topics,
+    migrate_topics_to_metadata,
+)
 
 app = Flask(__name__)
 
@@ -313,57 +319,57 @@ METADATA_FILE = "metadata.json"
 #         return json.load(f)
 
 
-def get_topics():
+# def get_topics():
 
-    metadata = load_metadata()
+#     metadata = load_metadata()
 
-    topics = {}
+#     topics = {}
 
-    for filename, info in metadata.items():
+#     for filename, info in metadata.items():
 
-        topics[filename] = info.get("topic", "Unknown")
+#         topics[filename] = info.get("topic", "Unknown")
 
-    return topics
-
-
-def get_topic(filename):
-
-    metadata = load_metadata()
-
-    if filename in metadata:
-
-        return metadata[filename].get("topic", "Unknown")
-
-    return "Unknown"
+#     return topics
 
 
-def save_metadata(data):
+# def get_topic(filename):
 
-    with open(METADATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
+#     metadata = load_metadata()
+
+#     if filename in metadata:
+
+#         return metadata[filename].get("topic", "Unknown")
+
+#     return "Unknown"
 
 
-def migrate_topics_to_metadata():
+# def save_metadata(data):
 
-    metadata = load_metadata()
+#     with open(METADATA_FILE, "w", encoding="utf-8") as f:
+#         json.dump(data, f, indent=4)
 
-    topics = get_topics()
 
-    changed = False
+# def migrate_topics_to_metadata():
 
-    for filename, topic in topics.items():
+#     metadata = load_metadata()
 
-        if filename not in metadata:
+#     topics = get_topics()
 
-            metadata[filename] = {
-                "topic": topic,
-                "date": datetime.now().strftime("%Y-%m-%d")
-            }
+#     changed = False
 
-            changed = True
+#     for filename, topic in topics.items():
 
-    if changed:
-        save_metadata(metadata)
+#         if filename not in metadata:
+
+#             metadata[filename] = {
+#                 "topic": topic,
+#                 "date": datetime.now().strftime("%Y-%m-%d")
+#             }
+
+#             changed = True
+
+#     if changed:
+#         save_metadata(metadata)
 
 
 def search_index(query):
