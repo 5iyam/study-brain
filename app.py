@@ -40,11 +40,12 @@ from services.ocr_service import extract_text_from_image
 from routes.home import home_bp
 from routes.upload import upload_bp
 from routes.search import search_bp
-
+from routes.topics import topics_bp
 app = Flask(__name__)
 app.register_blueprint(home_bp)
 app.register_blueprint(upload_bp)
 app.register_blueprint(search_bp)
+app.register_blueprint(topics_bp)
 
 UPLOAD_FOLDER = "uploads"
 INDEX_FOLDER = "index"
@@ -332,68 +333,68 @@ def universal():
     )
 
 
-@app.route("/topics")
-def topics():
+# @app.route("/topics")
+# def topics():
 
-    topic_data = get_topics()
+#     topic_data = get_topics()
 
-    topic_count = {}
+#     topic_count = {}
 
-    for filename, topic in topic_data.items():
+#     for filename, topic in topic_data.items():
 
-        if topic not in topic_count:
-            topic_count[topic] = 0
+#         if topic not in topic_count:
+#             topic_count[topic] = 0
 
-        topic_count[topic] += 1
+#         topic_count[topic] += 1
 
-    return render_template(
-        "topics.html",
-        topic_count=topic_count
-    )
+#     return render_template(
+#         "topics.html",
+#         topic_count=topic_count
+#     )
 
 
-@app.route("/topic/<topic_name>")
-def topic(topic_name):
+# @app.route("/topic/<topic_name>")
+# def topic(topic_name):
 
-    topics = get_topics()
+#     topics = get_topics()
 
-    files = []
+#     files = []
 
-    combined_text = ""
+#     combined_text = ""
 
-    for filename, topic in topics.items():
+#     for filename, topic in topics.items():
 
-        if topic == topic_name:
+#         if topic == topic_name:
 
-            files.append(filename)
+#             files.append(filename)
 
-            combined_text += "\n"
+#             combined_text += "\n"
 
-            combined_text += get_index_text(filename)
+#             combined_text += get_index_text(filename)
 
-    combined_text = clean_combined_text(combined_text)
+#     combined_text = clean_combined_text(combined_text)
 
-    summary = generate_master_summary(combined_text)
+#     summary = generate_master_summary(combined_text)
 
-    phrase_data = extract_phrase_concepts(combined_text)
+#     phrase_data = extract_phrase_concepts(combined_text)
 
-    concepts = phrase_data[:5]
+#     concepts = phrase_data[:5]
 
-    keywords = phrase_data
+#     keywords = phrase_data
 
-    questions = generate_revision_questions(combined_text)
+#     questions = generate_revision_questions(combined_text)
 
-    return render_template(
-        "revision.html",
-        title=f"📂 {topic_name}",
-        back_url="/topics",
-        back_text="⬅ Back to Topics",
-        files=files,
-        summary=summary,
-        concepts=concepts,
-        keywords=keywords,
-        questions=questions
-    )
+#     return render_template(
+#         "revision.html",
+#         title=f"📂 {topic_name}",
+#         back_url="/topics",
+#         back_text="⬅ Back to Topics",
+#         files=files,
+#         summary=summary,
+#         concepts=concepts,
+#         keywords=keywords,
+#         questions=questions
+#     )
 
 
 
