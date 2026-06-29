@@ -1,0 +1,23 @@
+Biology is the scientific study of life and living organisms. It
+explores everything from the microscopic mechanisms inside cells
+to the complex interactions of entire ecosystems. By understanding
+how organisms grow, function, evolve, and reproduce, biology
+provides essential insights into ourselves and the natural
+
+world. = wikipedia +2
+
+Key Concepts in Biology
+
+The discipline is typically unified by five core principles that explain all living
+phenomena: = Wikipedia
+
+* Cell Theory: All living things are made of cells, which are the basic units of life.
+
+* Gene Theory: Traits and characteristics are inherited through genetic material
+(DNA/RNA).
+
+* Evolution: The process by which species adapt and change over generations.
++ Energy Processing: All living things require and transform energy to survive.
+
++ Homeostasis: The ability of organisms to maintain a stable internal environment
+despite external changes.
