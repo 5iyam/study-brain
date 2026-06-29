@@ -1,4 +1,11 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import (
+    Flask,
+    render_template,
+    request,
+    send_from_directory,
+    redirect,
+    url_for,
+)
 import os
 import pytesseract
 from PIL import Image
@@ -30,8 +37,10 @@ from services.search_service import (
     search_index,
 )
 from services.ocr_service import extract_text_from_image
+from routes.home import home_bp
 
 app = Flask(__name__)
+app.register_blueprint(home_bp)
 
 UPLOAD_FOLDER = "uploads"
 INDEX_FOLDER = "index"
@@ -79,15 +88,15 @@ METADATA_FILE = "metadata.json"
 
 
 
-@app.route("/")
-def home():
-    files = os.listdir(UPLOAD_FOLDER)
-    topics = get_topics()
-    return render_template(
-        "index.html",
-        files=files,
-        topics=topics
-    )
+# @app.route("/")
+# def home():
+#     files = os.listdir(UPLOAD_FOLDER)
+#     topics = get_topics()
+#     return render_template(
+#         "index.html",
+#         files=files,
+#         topics=topics
+#     )
 
 
 @app.route("/upload", methods=["POST"])
@@ -116,9 +125,7 @@ def upload():
 
         save_metadata(metadata)
 
-        
-
-    return home()
+        return redirect(url_for("home.home"))
 
 
 @app.route("/search", methods=["POST"])
