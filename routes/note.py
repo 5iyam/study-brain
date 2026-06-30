@@ -3,6 +3,9 @@ from flask import (
     render_template,
     send_from_directory,
 )
+
+from services.brain import Brain
+
 import os
 
 from services.index_service import get_index_text
@@ -14,6 +17,8 @@ from services.revision_service import (
 )
 
 note_bp = Blueprint("note", __name__)
+
+brain = Brain(mode="online")
 
 @note_bp.route("/note/<filename>")
 def note(filename):
@@ -71,7 +76,7 @@ def summary(filename):
 
     text = get_index_text(filename)
 
-    summary_lines = generate_summary(text)
+    summary_lines = brain.generate_summary(text)
 
     html = f"<h1>Better Summary</h1><h3>{filename}</h3><ul>"
 
@@ -87,7 +92,7 @@ def keywords(filename):
 
     text = get_index_text(filename)
 
-    keywords = extract_keywords(text)
+    keywords = brain.generate_keywords(text)
 
     html = f"<h1>Keywords</h1><h3>{filename}</h3><ul>"
 

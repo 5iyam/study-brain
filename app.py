@@ -9,6 +9,7 @@ from routes.topics import topics_bp
 from routes.universal import universal_bp
 from routes.time import time_bp
 from routes.note import note_bp
+from services.brain import Brain
 
 
 app = Flask(__name__)
