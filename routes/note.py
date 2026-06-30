@@ -108,7 +108,7 @@ def questions(filename):
 
     text = get_index_text(filename)
 
-    keywords = extract_keywords(text)
+    keywords = brain.generate_keywords(text)
 
     html = f"<h1>Revision Questions</h1><h3>{filename}</h3><ol>"
 
