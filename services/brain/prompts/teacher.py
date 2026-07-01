@@ -49,39 +49,51 @@ GENERAL RULES
 
 OUTPUT FORMAT
 
-Always generate notes using this structure.
+Return ONLY valid JSON.
 
-# Topic
+Do not use Markdown.
 
-## Definition
+Do not use headings.
 
-A short explanation of the topic.
+Do not use bullet points.
 
-## Core Ideas
+Do not wrap the JSON inside ```.
 
-• Idea 1
+Return exactly this structure:
 
-• Idea 2
+{
+    "title": "",
+    "overview": "",
+    "core_ideas": [],
+    "important_facts": [],
+    "key_points": [],
+    "quotes": [],
+    "memory_tip": ""
+}
 
-• Idea 3
+Rules:
 
-## Important Facts
+"title"
+- Short chapter or topic title.
 
-• Fact 1
+"overview"
+- Explain the topic in 2–3 sentences.
 
-• Fact 2
+"core_ideas"
+- 3–8 important concepts.
 
-## Key Points
+"important_facts"
+- Important facts students should remember.
 
-• The most important revision points.
+"key_points"
+- Short revision points.
 
-## Memory Tip
+"quotes"
+- Include important quotations if they exist.
+- Otherwise return an empty list.
 
-Provide one simple memory trick whenever possible.
-
---------------------------------------------------
-
-STYLE
+"memory_tip"
+- Create one memorable trick or mnemonic.
 
 Be concise.
 

@@ -1,7 +1,12 @@
 import os
 
 from dotenv import load_dotenv
+
 from openai import OpenAI
+from openai import RateLimitError
+
+from services.brain.prompts import TEACHER_PROMPT
+from services.brain.model_manager import ModelManager
 
 load_dotenv()
 
@@ -15,43 +20,72 @@ class OnlineEngine:
             base_url="https://openrouter.ai/api/v1",
         )
 
-        self.model = os.getenv("AI_MODEL")
+        self.model_manager = ModelManager()
 
-    def generate(self, prompt, text):
+    def _ask_ai(self, messages):
+
+        while True:
+
+            model = self.model_manager.current_model()
+
+            print(f"🤖 Trying model: {model}")
+
+            try:
+
+                response = self.client.chat.completions.create(
+                    model=model,
+                    messages=messages,
+                    temperature=0,
+                    max_tokens=700,
+                )
+
+                self.model_manager.reset()
+
+                return response
+
+            except RateLimitError:
+
+                print(f"❌ {model} is rate limited.")
+
+                if self.model_manager.next_model():
+
+                    print("🔄 Switching to next model...")
+
+                    continue
+
+                raise Exception(
+                    "All available AI models are currently rate limited."
+                )
+
+    def generate_summary(self, text):
 
         print("🔥 OnlineEngine called!")
 
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {
-                    "role": "system",
-                    "content": prompt,
-                },
-                {
-                    "role": "user",
-                    "content": text,
-                },
-            ],
-            temperature=0.2,
-            max_tokens=700,
-        )
+        messages = [
+
+            {
+                "role": "system",
+                "content": TEACHER_PROMPT,
+            },
+
+            {
+                "role": "user",
+                "content": text,
+            }
+
+        ]
+
+        response = self._ask_ai(messages)
 
         answer = response.choices[0].message.content
 
         print("✅ AI Response:")
         print(answer)
 
-        return answer
+        return answer.split("\n")
 
-    def generate_summary(self, prompt, text):
+    def generate_keywords(self, text):
+        return [("Placeholder", 1)]
 
-        return self.generate(prompt, text).split("\n")
-
-    def generate_keywords(self, prompt, text):
-
-        return self.generate(prompt, text)
-
-    def generate_questions(self, prompt, text):
-
-        return self.generate(prompt, text)
+    def generate_questions(self, text):
+        return ["Placeholder"]
