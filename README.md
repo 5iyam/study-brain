@@ -110,7 +110,7 @@ TOPIC_FILE = "topics.json"
 
 # save_metadata()
 
-# get_topic()
+s# get_topic()
 
 # get_topics()
 
@@ -164,12 +164,6 @@ Those skills remain valuable no matter how AI evolves.
 ✅ Replace Summary
 ✅ Replace Keywords
 ✅ Replace Questions
-<<<<<<< HEAD
-
-=======
-# qwen/qwen3-next-80b-a3b-instruct:free 
-# nvidia/nemotron-3-ultra-550b-a55b:free currelty using
->>>>>>> 601be8e (ai integration is completed)
 
 we are going to send this as a request 
 You are an expert teacher.
