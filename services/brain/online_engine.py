@@ -17,7 +17,7 @@ class OnlineEngine:
 
         self.model = os.getenv("AI_MODEL")
 
-    def generate_summary(self, text):
+    def generate(self, prompt, text):
 
         print("🔥 OnlineEngine called!")
 
@@ -25,10 +25,16 @@ class OnlineEngine:
             model=self.model,
             messages=[
                 {
+                    "role": "system",
+                    "content": prompt,
+                },
+                {
                     "role": "user",
-                    "content": "Say Hello in one sentence."
-                }
-            ]
+                    "content": text,
+                },
+            ],
+            temperature=0.2,
+            max_tokens=700,
         )
 
         answer = response.choices[0].message.content
@@ -36,10 +42,16 @@ class OnlineEngine:
         print("✅ AI Response:")
         print(answer)
 
-        return [answer]
+        return answer
 
-    def generate_keywords(self, text):
-        return [("Placeholder", 1)]
+    def generate_summary(self, prompt, text):
 
-    def generate_questions(self, text):
-        return ["Placeholder"]
+        return self.generate(prompt, text).split("\n")
+
+    def generate_keywords(self, prompt, text):
+
+        return self.generate(prompt, text)
+
+    def generate_questions(self, prompt, text):
+
+        return self.generate(prompt, text)
