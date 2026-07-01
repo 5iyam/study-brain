@@ -1,0 +1,22 @@
+“ae
+
+A route is a designated path, course, or way taken to get from one place to another.
+It can refer to physical infrastructure (like a highway or transit line), a regular sequence
+of stops for deliveries, or a method for achieving a goal. © Meriam-webster +3
+
+Common Definitions
+
++ Physical Path: A specific way or direction between places (e.g., the quickest route
+to the airport).
+
++ Transit Line: A fixed course traveled regularly by a bus, train, airline, or ship.
+
+* Work Circuit: An established list of stops or clients visited regularly for a job (e.g. a
+mail carrier's route).
+
+* Method/Process: A chosen course of action used to achieve a specific result or
+goal (e.g., a route to success).
+
++ Computing: In information technology, to direct or forward data (such as emails or
+network traffic) to a specific destination. @ cambridge Dictionary +4
+

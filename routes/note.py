@@ -124,7 +124,7 @@ def smart_note(filename):
 
     text = get_index_text(filename)
 
-    summary = generate_summary(text)
+    summary = brain.generate_summary(text)
 
     keywords = extract_keywords(text)
 

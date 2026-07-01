@@ -164,3 +164,20 @@ Those skills remain valuable no matter how AI evolves.
 ✅ Replace Summary
 ✅ Replace Keywords
 ✅ Replace Questions
+
+
+we are going to send this as a request 
+You are an expert teacher.
+
+Read the following study notes.
+
+Create a revision summary.
+
+Rules:
+
+• Keep every important concept.
+• Use bullet points.
+• Correct OCR mistakes when obvious.
+• Don't invent facts.
+• Organize information logically.
+• Use clear educational language.
