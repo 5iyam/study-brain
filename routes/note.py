@@ -137,7 +137,19 @@ def smart_note(filename):
         "note.html",
         filename=filename,
         text=text,
+
         summary=summary,
+
+        title=summary.get("title", ""),
+
+        overview=summary.get("overview", ""),
+
+        core_ideas=summary.get("core_ideas", []),
+
+        important_facts=summary.get("important_facts", []),
+
+        memory_tip=summary.get("memory_tip", ""),
+
         keywords=keywords,
-        questions=questions
+        questions=questions,
     )

@@ -124,17 +124,31 @@ li{
 
 <div class="card">
 
-<h2>📝 Better Summary</h2>
+<h2>Better Summary</h2>
+
+<h3>{{ title }}</h3>
+
+<p>{{ overview }}</p>
+
+<h4>Core Ideas</h4>
 
 <ul>
-
-{% for line in summary %}
-
-<li>{{ line }}</li>
-
+{% for item in core_ideas %}
+    <li>{{ item }}</li>
 {% endfor %}
-
 </ul>
+
+<h4>Important Facts</h4>
+
+<ul>
+{% for item in important_facts %}
+    <li>{{ item }}</li>
+{% endfor %}
+</ul>
+
+<h4>Memory Tip</h4>
+
+<p>{{ memory_tip }}</p>
 
 </div>
 
