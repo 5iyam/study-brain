@@ -1,14 +1,12 @@
 import os
 
-from services.brain.parser import SummaryParser
-
 from dotenv import load_dotenv
-
 from openai import OpenAI
-from openai import RateLimitError
 
 from services.brain.prompts import TEACHER_PROMPT
 from services.brain.model_manager import ModelManager
+from services.brain.request_engine import RequestEngine
+from services.brain.parser import SummaryParser
 
 load_dotenv()
 
@@ -24,68 +22,26 @@ class OnlineEngine:
 
         self.model_manager = ModelManager()
 
+        self.request_engine = RequestEngine(
+            self.client,
+            self.model_manager,
+        )
+
         self.summary_parser = SummaryParser()
-
-        
-
-
-    def _ask_ai(self, messages):
-
-        while True:
-
-            model = self.model_manager.current_model()
-
-            print(f"🤖 Trying model: {model}")
-
-            try:
-
-                response = self.client.chat.completions.create(
-                    model=model,
-                    messages=messages,
-                    temperature=0,
-                    max_tokens=700,
-                )
-
-                self.model_manager.reset()
-
-                return response
-
-            except RateLimitError:
-
-                print(f"❌ {model} is rate limited.")
-
-                if self.model_manager.next_model():
-
-                    print("🔄 Switching to next model...")
-
-                    continue
-
-                raise Exception(
-                    "All available AI models are currently rate limited."
-                )
 
     def generate_summary(self, text):
 
         print("🔥 OnlineEngine called!")
 
-        messages = [
+        system_prompt = TEACHER_PROMPT
 
-            {
-                "role": "system",
-                "content": TEACHER_PROMPT,
-            },
+        user_prompt = text
 
-            {
-                "role": "user",
-                "content": text,
-            }
-
-        ]
-
-        response = self._ask_ai(messages)
-
-        answer = response.choices[0].message.content
-
+        answer = self.request_engine.request(
+            system_prompt,
+            user_prompt,
+        )
+    
         print("✅ AI Response:")
         print(answer)
 
