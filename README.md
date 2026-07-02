@@ -224,3 +224,292 @@ Brain
 ├── Concept Mapper
 
 └── Doubt Solver
+# Your home page currently has something like:
+
+🏠 Home
+
+📚 Notes
+
+🔍 Search
+
+🧠 Universal Revision
+
+⏰ Timewise Revision
+And I actually think these two features are what make Study Brain unique.
+
+Right now
+Most AI note apps focus on:
+
+PDF
+
+↓
+
+Summary
+
+↓
+
+Flashcards
+That's useful, but it's not what makes Study Brain special.
+
+The real vision of Study Brain
+I think your application has three major pillars.
+
+Pillar 1 — Note Intelligence (what we're building now)
+OCR
+
+↓
+
+Smart Note
+
+↓
+
+Summary
+
+↓
+
+Keywords
+
+↓
+
+Questions
+
+↓
+
+Flashcards
+
+↓
+
+Quiz
+
+↓
+
+Tutor
+This is all about understanding one note.
+
+Pillar 2 — Universal Revision ⭐
+This is where Study Brain becomes different.
+
+Imagine you've studied:
+
+Chapter 1
+
+Chapter 2
+
+Chapter 3
+
+Chapter 4
+
+Chapter 5
+Instead of reviewing each separately,
+
+Universal Revision asks:
+
+"What should I revise today from everything I've ever studied?"
+
+Example:
+
+Today's Revision
+
+• Matrix
+
+• Pythagorean Theorem
+
+• Alice Chapter 1
+
+• Newton's First Law
+
+• Photosynthesis
+Notice:
+
+It doesn't care which note it came from.
+
+It cares about your knowledge.
+
+Pillar 3 — Timewise Revision ⭐⭐
+This is even more powerful.
+
+Imagine:
+
+Monday
+
+↓
+
+Tuesday
+
+↓
+
+Wednesday
+
+↓
+
+Thursday
+The app knows:
+
+Studied yesterday
+
+↓
+
+Studied last week
+
+↓
+
+Studied last month
+Then it schedules reviews automatically.
+
+Example:
+
+Today
+
+Review:
+
+Chapter 2
+
+Algebra
+
+Matrix
+
+Rabbit Hole
+
+English Vocabulary
+This is essentially a built-in spaced repetition system.
+
+Why I'm not rushing there
+Those two features depend on something very important:
+
+Good data.
+
+If your Smart Note doesn't generate:
+
+summaries
+
+keywords
+
+questions
+
+then Universal Revision has almost nothing meaningful to work with.
+
+So the dependency chain is:
+
+OCR
+
+↓
+
+Smart Note
+
+↓
+
+Knowledge
+
+↓
+
+Universal Revision
+
+↓
+
+Timewise Revision
+My proposed roadmap
+Phase 1 (Current)
+Finish Smart Note.
+
+✅ Summary
+
+🔄 Keywords
+
+Questions
+
+Flashcards
+
+Quiz
+
+Phase 2
+Build a Knowledge Database.
+
+Instead of just saving OCR text, store:
+
+Note
+
+↓
+
+Summary
+
+↓
+
+Keywords
+
+↓
+
+Questions
+
+↓
+
+Date Studied
+
+↓
+
+Difficulty
+
+↓
+
+Subject
+Now every note becomes a structured knowledge item.
+
+Phase 3
+Universal Revision.
+
+Use all stored knowledge.
+
+Phase 4
+Timewise Revision.
+
+Use study history + spaced repetition.
+
+This is the exciting part
+I think Universal Revision and Timewise Revision are what people will remember about Study Brain.
+
+Lots of apps can summarize a PDF.
+
+Very few can answer:
+
+"Considering everything I've learned over the last six months, what should I revise today?"
+
+That's the kind of feature that makes a study assistant feel genuinely intelligent.
+
+So my recommendation is:
+
+Don't forget those two features—they're central to your vision.
+
+But build them after Smart Note is mature enough to generate reliable knowledge. That way, when we start Universal Revision, we'll already have high-quality summaries, keywords, and questions to work with instead of having to redesign the foundations later.
+
+# Smart Note
+
+    ↓
+
+Keywords V2
+
+    ↓
+
+Questions V2
+
+    ↓
+
+Flashcards ⭐
+
+    ↓
+
+Quiz ⭐
+
+    ↓
+
+Knowledge Database ⭐⭐⭐
+
+    ↓
+
+Universal Revision ⭐⭐⭐⭐⭐
+
+    ↓
+
+Timewise Revision ⭐⭐⭐⭐⭐
+
+    ↓
+
+AI Tutor ⭐⭐⭐⭐⭐
