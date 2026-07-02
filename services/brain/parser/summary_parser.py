@@ -1,18 +1,10 @@
-import json
+from .base_parser import BaseParser
 
 
-class SummaryParser:
+class SummaryParser(BaseParser):
 
     def parse(self, response):
 
-        try:
+        data = self.parse_json(response)
 
-            data = json.loads(response)
-
-            return data
-
-        except json.JSONDecodeError:
-
-            raise Exception(
-                "AI returned invalid JSON."
-            )
+        return data
