@@ -4,6 +4,8 @@
 
 MODELS = [
 
+    #"cohere/north-mini-code:free",
+
     "nvidia/nemotron-3-ultra-550b-a55b:free",
 
     "qwen/qwen3-next-80b-a3b-instruct:free",

@@ -1,5 +1,7 @@
 import os
 
+from services.brain.parser import SummaryParser
+
 from dotenv import load_dotenv
 
 from openai import OpenAI
@@ -21,6 +23,11 @@ class OnlineEngine:
         )
 
         self.model_manager = ModelManager()
+
+        self.summary_parser = SummaryParser()
+
+        
+
 
     def _ask_ai(self, messages):
 
@@ -82,7 +89,7 @@ class OnlineEngine:
         print("✅ AI Response:")
         print(answer)
 
-        return answer.split("\n")
+        return self.summary_parser.parse(answer)
 
     def generate_keywords(self, text):
         return [("Placeholder", 1)]

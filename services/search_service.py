@@ -28,27 +28,7 @@ INDEX_FOLDER = "index"
 # Search Functions
 # ==================================================
 
-# def search_notes(query):
-#     results = []
-#     files = os.listdir(UPLOAD_FOLDER)
 
-#     for file in files:
-#         path = os.path.join(UPLOAD_FOLDER, file)
-#         text = ""
-
-#         try:
-#             if file.lower().endswith((".png", ".jpg", ".jpeg")):
-#                 text = pytesseract.image_to_string(Image.open(path))
-#             else:
-#                 with open(path, "r", errors="ignore") as f:
-#                     text = f.read()
-
-#             if query.lower() in text.lower():
-#                 results.append(file)
-#         except:
-#             pass
-
-#     return results
 
 
 def search_index(query):
